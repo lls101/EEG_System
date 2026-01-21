@@ -12,6 +12,9 @@ class MenuController(CRUDBase[Menu, MenuCreate, MenuUpdate]):
     async def get_by_menu_name(self, menu_name: str) -> Menu | None:
         return await self.model.filter(menu_name=menu_name).first()
 
+    async def get_by_route_name(self, route_name: str) -> Menu | None:
+        return await self.model.filter(route_name=route_name).first()
+
     async def get_by_route_path(self, route_path: str) -> Menu | None:
         return await self.model.filter(route_path=route_path).first()
 

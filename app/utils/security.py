@@ -5,8 +5,8 @@ from passlib.context import CryptContext
 from app.schemas.login import JWTPayload
 from app.settings import APP_SETTINGS
 
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
+# 推荐使用 bcrypt 作为加密方式
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 # ALGORITHM = "HS256"

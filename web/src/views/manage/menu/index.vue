@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
+import { fetchGetAllPages, fetchGetMenuList ,fetchDeleteMenu , fetchBatchDeleteMenu } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -182,15 +182,19 @@ function handleAdd() {
 async function handleBatchDelete() {
   // request
   console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await fetchBatchDeleteMenu({ ids: checkedRowKeys.value });
+  if (!error) {
+    onBatchDeleted();
+  }
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
   console.log(id);
-
-  onDeleted();
+  const { error } = await fetchDeleteMenu({ id });
+   if (!error){
+    onDeleted()
+   }
 }
 
 /** the edit menu data or the parent menu data when adding a child menu */

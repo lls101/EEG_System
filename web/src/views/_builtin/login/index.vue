@@ -7,8 +7,6 @@ import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
 import { loginModuleRecord } from '@/constants/app';
 import PwdLogin from './modules/pwd-login.vue';
-import CodeLogin from './modules/code-login.vue';
-import Register from './modules/register.vue';
 import ResetPwd from './modules/reset-pwd.vue';
 import BindWechat from './modules/bind-wechat.vue';
 
@@ -27,15 +25,13 @@ interface LoginModule {
   component: Component;
 }
 
-const moduleMap: Record<UnionKey.LoginModule, LoginModule> = {
+const moduleMap: Partial<Record<UnionKey.LoginModule, LoginModule>> = {
   'pwd-login': { label: loginModuleRecord['pwd-login'], component: PwdLogin },
-  'code-login': { label: loginModuleRecord['code-login'], component: CodeLogin },
-  register: { label: loginModuleRecord.register, component: Register },
   'reset-pwd': { label: loginModuleRecord['reset-pwd'], component: ResetPwd },
   'bind-wechat': { label: loginModuleRecord['bind-wechat'], component: BindWechat }
 };
 
-const activeModule = computed(() => moduleMap[props.module || 'pwd-login']);
+const activeModule = computed(() => moduleMap[props.module || 'pwd-login'] ?? moduleMap['pwd-login']);
 
 const bgThemeColor = computed(() =>
   themeStore.darkMode ? getPaletteColorByNumber(themeStore.themeColor, 600) : themeStore.themeColor

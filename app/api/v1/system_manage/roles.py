@@ -45,13 +45,30 @@ async def get_role(role_id: int):
 
 @router.post("/roles", summary="创建角色")
 async def _(role_in: RoleCreate):
+    from app.schemas.base import Fail
     role = await role_controller.model.exists(role_code=role_in.role_code)
     if role:
         return Success(code="4090", msg="The role with this code already exists in the system.")
 
-    new_user = await role_controller.create(obj_in=role_in)
+    obj_data = role_in.model_dump()
+    home_menu_name = obj_data.pop("by_role_home", None)
+
+    # If no home menu is specified by the client, default to "home"
+    if not home_menu_name:
+        home_menu_name = "home"
+
+    home_menu_obj = await menu_controller.get_by_route_name(route_name=home_menu_name)
+    if not home_menu_obj:
+        home_menu_obj = await menu_controller.get_by_menu_name(menu_name=home_menu_name)
+    if not home_menu_obj:
+        return Fail(code="4040", msg=f"The specified or default home menu '{home_menu_name}' was not found.")
+    
+    # Always set the home menu ID before creating
+    obj_data["by_role_home_id"] = home_menu_obj.id
+
+    new_role = await role_controller.create(obj_in=obj_data)
     await insert_log(log_type=LogType.AdminLog, log_detail_type=LogDetailType.RoleCreateOne, by_user_id=0)
-    return Success(msg="Created Successfully", data={"created_id": new_user.id})
+    return Success(msg="Created Successfully", data={"created_id": new_role.id})
 
 
 @router.patch("/roles/{role_id}", summary="更新角色")

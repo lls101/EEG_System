@@ -21,7 +21,7 @@ class MenuBase(BaseModel):
     route_path: Annotated[str | None, Field(max_length=200, alias="routePath", title="路由路径")] = None
 
     path_param: Annotated[str | None, Field(max_length=200, alias="pathParam", description="路径参数")] = None
-    route_param: Annotated[list[dict[str, Any]] | None, Field(alias="query", description="路由参数列表")] = []
+    route_param: Annotated[list[dict[str, Any]] | None, Field(alias="query", description="路由参数列表")] = None
     by_menu_buttons: Annotated[list[ButtonBase] | None, Field(alias="byMenuButtons", description="按钮列表")] = []
     order: Annotated[int | None, Field(description="菜单顺序")] = None
     component: Annotated[str | None, Field(description="路由组件")] = None

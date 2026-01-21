@@ -245,7 +245,9 @@ function getSubmitParams() {
 
   params.component = component;
   params.routePath = routePath;
-
+  if (Array.isArray(params.query) && params.query.length === 0) {
+        params.query = null;
+      }
   return params;
 }
 

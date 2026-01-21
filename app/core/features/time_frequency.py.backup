@@ -1,0 +1,334 @@
+import numpy as np
+import mne
+from mne.time_frequency import tfr_morlet, tfr_multitaper, tfr_stockwell
+from scipy import signal
+from scipy.stats import entropy
+import warnings
+            
+            # 检查维度并调整
+            print(f"原始时频数据形状: {tfr_data.shape}")
+            if tfr_data.ndim == 3:
+                # 如果是平均的TFR (n_channels, n_freqs, n_times)，需要扩展为每个epoch的形式
+                # 对于multitaper等方法，通常返回平均值，我们需要为每个epoch重复这个模式
+                tfr_data = np.repeat(tfr_data[np.newaxis, :, :, :], n_epochs, axis=0)
+                print(f"调整后时频数据形状: {tfr_data.shape}")
+        else:
+            raise ValueError(f"TFR对象没有data属性: {type(tfr)}")
+    else:
+        tfr_data = tfr['data']
+        times = tfr['times'] 
+        freqs_used = tfr['freqs']
+    
+    print(f"最终时频数据形状: {tfr_data.shape}")
+    print(f"频率范围: {freqs_used[0]:.2f} - {freqs_used[-1]:.2f} Hz")
+    print(f"时间范围: {times[0]:.3f} - {times[-1]:.3f} s")_morlet, tfr_multitaper, tfr_stockwell
+from scipy import signal
+from scipy.stats import entropy
+import warnings
+
+def extract_time_frequency_features(epochs, method='morlet', freqs=None):
+    """
+    提取EEG时频域特征
+    
+    Parameters:
+    -----------
+    epochs : mne.Epochs
+        预处理后的epoch数据
+    method : str
+        时频分析方法: 'morlet', 'multitaper', 'stockwell', 'stft'
+    freqs : array-like or None
+        分析的频率范围，默认为1-40Hz
+    
+    Returns:
+    --------
+    features : ndarray, shape (n_epochs, n_features)
+        时频特征矩阵
+    feature_names : list
+        特征名称列表
+    """
+    
+    print(f"提取时频域特征 (方法: {method})...")
+    
+    epochs_data = epochs.get_data()
+    sfreq = epochs.info['sfreq']
+    n_epochs, n_channels, n_times = epochs_data.shape
+    
+    print(f"数据形状: {epochs_data.shape}")
+    print(f"采样频率: {sfreq} Hz")
+    
+    # 设置频率范围
+    if freqs is None:
+        freqs = np.logspace(np.log10(1), np.log10(40), 30)  # 1-40Hz，30个频率点
+    
+    # 计算时频表示
+    if method == 'morlet':
+        tfr = compute_morlet_tfr(epochs, freqs)
+    elif method == 'multitaper':
+        tfr = compute_multitaper_tfr(epochs, freqs)
+    elif method == 'stockwell':
+        tfr = compute_stockwell_tfr(epochs, freqs)
+    elif method == 'stft':
+        tfr = compute_stft_tfr(epochs_data, sfreq, freqs)
+    else:
+        raise ValueError("method must be 'morlet', 'multitaper', 'stockwell', or 'stft'")
+    
+    # 获取时频数据
+    if method != 'stft':
+        tfr_data = tfr.data  # shape: (n_epochs, n_channels, n_freqs, n_times)
+        times = tfr.times
+        freqs_used = tfr.freqs
+    else:
+        tfr_data = tfr['data']
+        times = tfr['times'] 
+        freqs_used = tfr['freqs']
+    
+    print(f"时频数据形状: {tfr_data.shape}")
+    print(f"频率范围: {freqs_used[0]:.2f} - {freqs_used[-1]:.2f} Hz")
+    print(f"时间范围: {times[0]:.3f} - {times[-1]:.3f} s")
+    
+    # 定义频段
+    bands = {
+        'delta': (1, 4),
+        'theta': (4, 8),
+        'alpha': (8, 12),
+        'beta': (12, 30),
+        'gamma': (30, 40)
+    }
+    
+    features = []
+    feature_names = []
+    
+    # 1. 频段时频功率特征
+    print("提取频段时频功率特征...")
+    for band_name, (fmin, fmax) in bands.items():
+        freq_mask = (freqs_used >= fmin) & (freqs_used <= fmax)
+        if not np.any(freq_mask):
+            continue
+            
+        # 提取该频段的时频功率
+        band_tfr = tfr_data[:, :, freq_mask, :]  # shape: (n_epochs, n_channels, n_band_freqs, n_times)
+        band_power = band_tfr.mean(axis=2)  # 对频率维度平均: (n_epochs, n_channels, n_times)
+        
+        # 跨通道平均
+        band_power_avg = band_power.mean(axis=1)  # (n_epochs, n_times)
+        
+        # 时间维度的统计特征
+        mean_power = band_power_avg.mean(axis=1)
+        max_power = band_power_avg.max(axis=1)
+        std_power = band_power_avg.std(axis=1)
+        var_power = band_power_avg.var(axis=1)
+        
+        features.extend([mean_power, max_power, std_power, var_power])
+        feature_names.extend([f'{band_name}_tf_mean', f'{band_name}_tf_max', 
+                             f'{band_name}_tf_std', f'{band_name}_tf_var'])
+        
+        # 功率变化的峰值时间
+        peak_times = []
+        for epoch in range(n_epochs):
+            peak_idx = np.argmax(band_power_avg[epoch, :])
+            peak_time = times[peak_idx]
+            peak_times.append(peak_time)
+        
+        features.append(np.array(peak_times))
+        feature_names.append(f'{band_name}_peak_time')
+    
+    # 2. 时频功率分布特征
+    print("提取时频功率分布特征...")
+    
+    # 总时频功率
+    total_tfr_power = tfr_data.mean(axis=1).mean(axis=1).mean(axis=1)  # 跨所有维度平均
+    features.append(total_tfr_power)
+    feature_names.append('total_tf_power')
+    
+    # 时频功率的时间质心和频率质心
+    time_centroid = []
+    freq_centroid = []
+    
+    for epoch in range(n_epochs):
+        # 跨通道平均的时频图
+        epoch_tfr = tfr_data[epoch, :, :, :].mean(axis=0)  # (n_freqs, n_times)
+        
+        # 时间质心
+        time_weights = np.sum(epoch_tfr, axis=0)  # 每个时间点的总功率
+        time_weights = time_weights / (np.sum(time_weights) + 1e-10)
+        t_centroid = np.sum(times * time_weights)
+        time_centroid.append(t_centroid)
+        
+        # 频率质心
+        freq_weights = np.sum(epoch_tfr, axis=1)  # 每个频率的总功率
+        freq_weights = freq_weights / (np.sum(freq_weights) + 1e-10)
+        f_centroid = np.sum(freqs_used * freq_weights)
+        freq_centroid.append(f_centroid)
+    
+    features.extend([np.array(time_centroid), np.array(freq_centroid)])
+    feature_names.extend(['time_centroid', 'frequency_centroid'])
+    
+    # 3. 时频复杂性特征
+    print("提取时频复杂性特征...")
+    
+    # 时频熵 - 衡量时频分布的复杂性
+    tf_entropy = []
+    for epoch in range(n_epochs):
+        epoch_tfr = tfr_data[epoch, :, :, :].mean(axis=0).flatten()  # 展平为1D
+        # 归一化为概率分布
+        epoch_tfr_norm = epoch_tfr / (np.sum(epoch_tfr) + 1e-10)
+        # 计算香农熵
+        ent = entropy(epoch_tfr_norm[epoch_tfr_norm > 0])
+        tf_entropy.append(ent if not np.isnan(ent) else 0)
+    
+    features.append(np.array(tf_entropy))
+    feature_names.append('tf_entropy')
+    
+    # 时频分布的标准差 (衡量能量分散程度)
+    tf_spread = []
+    for epoch in range(n_epochs):
+        epoch_tfr = tfr_data[epoch, :, :, :].mean(axis=0)  # (n_freqs, n_times)
+        spread = np.std(epoch_tfr)
+        tf_spread.append(spread)
+    
+    features.append(np.array(tf_spread))
+    feature_names.append('tf_spread')
+    
+    # 4. 时变频段功率比值
+    print("提取时变功率比值特征...")
+    
+    # 计算各频段在不同时间窗口的功率比值
+    n_time_windows = 5  # 将时间分成5段
+    time_window_size = len(times) // n_time_windows
+    
+    for window_idx in range(n_time_windows):
+        start_idx = window_idx * time_window_size
+        end_idx = min((window_idx + 1) * time_window_size, len(times))
+        
+        # 提取该时间窗口的数据
+        window_tfr = tfr_data[:, :, :, start_idx:end_idx]
+        
+        # 计算theta/alpha比值在该时间窗口
+        theta_mask = (freqs_used >= 4) & (freqs_used <= 8)
+        alpha_mask = (freqs_used >= 8) & (freqs_used <= 12)
+        
+        if np.any(theta_mask) and np.any(alpha_mask):
+            theta_power = window_tfr[:, :, theta_mask, :].mean(axis=(1, 2, 3))
+            alpha_power = window_tfr[:, :, alpha_mask, :].mean(axis=(1, 2, 3))
+            
+            theta_alpha_ratio = theta_power / (alpha_power + 1e-10)
+            features.append(theta_alpha_ratio)
+            feature_names.append(f'theta_alpha_ratio_t{window_idx+1}')
+    
+    # 5. 事件相关同步化/去同步化 (ERD/ERS) 特征
+    print("提取ERD/ERS特征...")
+    
+    # 计算基线功率 (通常取刺激前的时间段)
+    baseline_mask = times < 0  # 假设0时刻是刺激onset
+    if np.any(baseline_mask):
+        baseline_power = tfr_data[:, :, :, baseline_mask].mean(axis=3)  # (n_epochs, n_channels, n_freqs)
+        
+        # 计算刺激后各时间段相对于基线的功率变化
+        post_stimulus_mask = times > 0
+        if np.any(post_stimulus_mask):
+            post_power = tfr_data[:, :, :, post_stimulus_mask].mean(axis=3)
+            
+            # ERD/ERS计算: (post - baseline) / baseline * 100
+            erd_ers = ((post_power - baseline_power) / (baseline_power + 1e-10)) * 100
+            
+            # 对各频段计算平均ERD/ERS
+            for band_name, (fmin, fmax) in bands.items():
+                freq_mask = (freqs_used >= fmin) & (freqs_used <= fmax)
+                if np.any(freq_mask):
+                    band_erd_ers = erd_ers[:, :, freq_mask].mean(axis=(1, 2))
+                    features.append(band_erd_ers)
+                    feature_names.append(f'{band_name}_erd_ers')
+    
+    # 6. 瞬时频率特征
+    print("提取瞬时频率特征...")
+    
+    # 计算主导频率随时间的变化
+    dominant_freq = []
+    dominant_freq_std = []
+    
+    for epoch in range(n_epochs):
+        # 跨通道平均的时频图
+        epoch_tfr = tfr_data[epoch, :, :, :].mean(axis=0)  # (n_freqs, n_times)
+        
+        # 每个时间点的主导频率
+        epoch_dominant_freqs = []
+        for t_idx in range(epoch_tfr.shape[1]):
+            dominant_freq_idx = np.argmax(epoch_tfr[:, t_idx])
+            epoch_dominant_freqs.append(freqs_used[dominant_freq_idx])
+        
+        # 主导频率的平均值和标准差
+        dominant_freq.append(np.mean(epoch_dominant_freqs))
+        dominant_freq_std.append(np.std(epoch_dominant_freqs))
+    
+    features.extend([np.array(dominant_freq), np.array(dominant_freq_std)])
+    feature_names.extend(['dominant_freq_mean', 'dominant_freq_std'])
+    
+    # 合并所有特征
+    features_array = np.column_stack(features)
+    
+    print(f"\n时频特征提取完成!")
+    print(f"总共提取了 {features_array.shape[1]} 个时频特征")
+    print(f"特征矩阵形状: {features_array.shape}")
+    
+    return features_array, feature_names
+
+
+def compute_morlet_tfr(epochs, freqs):
+    """使用Morlet小波计算时频表示"""
+    n_cycles = freqs / 2.  # 频率自适应的周期数
+    return tfr_morlet(epochs, freqs=freqs, n_cycles=n_cycles, 
+                      use_fft=True, return_itc=False, decim=3, n_jobs=1)
+
+
+def compute_multitaper_tfr(epochs, freqs):
+    """使用多锥度方法计算时频表示"""
+    n_cycles = freqs / 2.
+    time_bandwidth = 2.0
+    return tfr_multitaper(epochs, freqs=freqs, n_cycles=n_cycles,
+                          time_bandwidth=time_bandwidth, use_fft=True, 
+                          return_itc=False, decim=3, n_jobs=1)
+
+
+def compute_stockwell_tfr(epochs, freqs):
+    """使用S变换计算时频表示"""
+    # 注意：S变换可能很慢，适合较少的频率点
+    return tfr_stockwell(epochs, fmin=freqs[0], fmax=freqs[-1], 
+                         n_fft=None, width=1.0, decim=3, n_jobs=1,
+                         return_itc=False)
+
+
+def compute_stft_tfr(epochs_data, sfreq, freqs):
+    """使用短时傅里叶变换计算时频表示"""
+    n_epochs, n_channels, n_times = epochs_data.shape
+    
+    # STFT参数
+    nperseg = int(sfreq * 0.25)  # 250ms窗口
+    noverlap = nperseg // 2      # 50%重叠
+    
+    stft_data = []
+    
+    for epoch in range(n_epochs):
+        epoch_stft = []
+        for ch in range(n_channels):
+            f, t, Zxx = signal.stft(epochs_data[epoch, ch, :], 
+                                    fs=sfreq, nperseg=nperseg, 
+                                    noverlap=noverlap, window='hann')
+            
+            # 选择指定频率范围
+            freq_mask = (f >= freqs[0]) & (f <= freqs[-1])
+            selected_freqs = f[freq_mask]
+            selected_stft = Zxx[freq_mask, :]
+            
+            # 转换为功率
+            power_stft = np.abs(selected_stft) ** 2
+            epoch_stft.append(power_stft)
+        
+        stft_data.append(np.array(epoch_stft))
+    
+    stft_array = np.array(stft_data)  # (n_epochs, n_channels, n_freqs, n_times)
+    
+    return {
+        'data': stft_array,
+        'freqs': selected_freqs,
+        'times': t - t[0]  # 相对时间
+    }

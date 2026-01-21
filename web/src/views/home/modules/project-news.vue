@@ -13,23 +13,25 @@ interface NewsItem {
 }
 
 const newses = computed<NewsItem[]>(() => [
-  { id: 1, content: $t('page.home.projectNews.desc1'), time: '2021-05-28 22:22:22' },
-  { id: 2, content: $t('page.home.projectNews.desc2'), time: '2021-10-27 10:24:54' },
-  { id: 3, content: $t('page.home.projectNews.desc3'), time: '2021-10-31 22:43:12' },
-  { id: 4, content: $t('page.home.projectNews.desc4'), time: '2021-11-03 20:33:31' },
-  { id: 5, content: $t('page.home.projectNews.desc5'), time: '2021-11-07 22:45:32' }
+  { id: 1, content: '新增上传校验与自动归档，文件管理更稳定', time: '2025-09-15 10:30:22' },
+  { id: 2, content: '新增小波去噪算法，支持多种小波基函数', time: '2025-09-14 16:45:18' },
+  { id: 3, content: 'ICA算法优化完成，处理速度提升40%', time: '2025-09-13 09:15:33' },
+  { id: 4, content: '系统新增时频域特征提取功能', time: '2025-09-12 14:22:07' },
+  { id: 5, content: '数据预处理管道重构，支持批量处理', time: '2025-09-11 11:38:55' }
 ]);
 </script>
 
 <template>
-  <NCard :title="$t('page.home.projectNews.title')" :bordered="false" size="small" segmented class="card-wrapper">
+  <NCard title="系统动态" :bordered="false" size="small" segmented class="card-wrapper">
     <template #header-extra>
-      <a class="text-primary" href="javascript:;">{{ $t('page.home.projectNews.moreNews') }}</a>
+      <a class="text-primary" href="javascript:;">更多动态</a>
     </template>
     <NList>
       <NListItem v-for="item in newses" :key="item.id">
         <template #prefix>
-          <SoybeanAvatar class="size-48px!" />
+          <div class="size-32px rd-1/2 bg-gradient-to-br from-blue-500 to-purple-600 flex-center">
+            <div class="text-white text-12px font-bold">EEG</div>
+          </div>
         </template>
         <NThing :title="item.content" :description="item.time" />
       </NListItem>

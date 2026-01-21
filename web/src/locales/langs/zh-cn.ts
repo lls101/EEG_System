@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'Soybean 管理系统',
+  title: '欢迎使用本系统',
     updateTitle: '系统版本更新通知',
     updateContent: '检测到系统有新版本发布，是否立即刷新页面？',
     updateConfirm: '立即刷新',
@@ -216,6 +216,7 @@ const local: App.I18n.Schema = {
     plugin_copy: '剪贴板',
     plugin_charts: '图表',
     plugin_charts_echarts: 'ECharts',
+    plugin_charts_echartscopy: 'EChartsCopy',
     plugin_charts_antv: 'AntV',
     plugin_charts_vchart: 'VChart',
     plugin_editor: '编辑器',
@@ -235,7 +236,23 @@ const local: App.I18n.Schema = {
     plugin_gantt_vtable: 'VTableGantt',
     plugin_typeit: '打字机',
     plugin_tables: '表格',
-    plugin_tables_vtable: 'VTable'
+    plugin_tables_vtable: 'VTable',
+    test: '测试',
+    test_plotlydemo: '测试plotly',
+    eegfile: 'EEG文件',
+    eegfile_upload: '文件上传',
+    eegfile_filemanage: '文件管理',
+
+    analysis: '分析',
+    analysis_features: '特征提取',
+
+    preprocess: '预处理',
+    'preprocess_preprocess-basic': '基本预处理',
+    'preprocess_ica': 'ICA去噪',
+    "preprocess_wavelet": "小波去噪",
+
+    'apply-model': '场景应用',
+    'apply-model_pd': 'PD刺激检测',
   },
   page: {
     login: {
@@ -286,7 +303,7 @@ const local: App.I18n.Schema = {
     },
     about: {
       title: '关于',
-      introduction: `SoybeanAdmin 是一个优雅且功能强大的后台管理模板，基于最新的前端技术栈，包括 Vue3, Vite5, TypeScript, Pinia 和 UnoCSS。它内置了丰富的主题配置和组件，代码规范严谨，实现了自动化的文件路由系统。此外，它还采用了基于 ApiFox 的在线Mock数据方案。SoybeanAdmin 为您提供了一站式的后台管理解决方案，无需额外配置，开箱即用。同样是一个快速学习前沿技术的最佳实践。`,
+      introduction: `EEG数据分析系统是一个专业的脑电图数据处理和分析平台，基于最新的前端技术栈，包括 Vue3, Vite5, TypeScript, Pinia 和 UnoCSS。系统集成了完整的EEG数据预处理、ICA清理、小波去噪以及特征提取功能，为神经科学研究和脑电图分析提供了一站式解决方案。系统支持多种特征域的计算（时域、频域、时频域），采用标准化的数据处理流程，确保分析结果的准确性和可重复性。`,
       projectInfo: {
         title: '项目信息',
         version: '版本',
@@ -650,6 +667,63 @@ const local: App.I18n.Schema = {
   },
   datatable: {
     itemCount: '共 {total} 条'
+  },
+  analysis: {
+    features: {
+      title: 'EEG特征提取',
+      step1: '第一步：选择数据源',
+      step2: '第二步：特征提取配置',
+      step3: '第三步：开始提取',
+      dataSource: {
+        type: '数据源类型',
+        selectType: '选择数据源类型',
+        selectData: '选择具体的数据文件',
+        selectDataPlaceholder: '选择具体的数据文件',
+        types: {
+          preprocessing: '预处理数据',
+          ica: 'ICA清洗数据',
+          wavelet: '小波清洗数据'
+        }
+      },
+      config: {
+        domain: '特征域',
+        selectDomain: '选择特征域',
+        domains: {
+          time: '时域特征',
+          frequency: '频域特征',
+          time_frequency: '时频域特征'
+        },
+        methods: '特征提取方法',
+        selectMethods: '选择提取方法（可多选）',
+        epochLength: '时间窗长度',
+        epochLengthUnit: '秒',
+        overlap: '重叠比例',
+        overlapUnit: '%'
+      },
+      actions: {
+        extract: '开始提取特征',
+        extracting: '正在提取特征...',
+        download: '下载结果文件',
+        reset: '重置配置'
+      },
+      results: {
+        title: '提取结果',
+        filename: '结果文件',
+        size: '文件大小',
+        extractTime: '提取时间',
+        statistics: '查看统计信息',
+        noResults: '暂无提取结果'
+      },
+      messages: {
+        selectDataFirst: '请先选择数据源',
+        selectDomainFirst: '请先选择特征域',
+        selectMethodsFirst: '请选择至少一种提取方法',
+        extractSuccess: '特征提取成功！',
+        extractFailed: '特征提取失败',
+        downloadSuccess: '下载开始',
+        downloadFailed: '下载失败'
+      }
+    }
   }
 };
 

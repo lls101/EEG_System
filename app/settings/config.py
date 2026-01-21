@@ -14,7 +14,7 @@ def tortoise_orm_factory() -> dict[str, Any]:
             }
         },
         "apps": {
-            "app_system": {"models": ["app.models.system", "aerich.models"], "default_connection": "conn_system"}
+            "app_system": {"models": ["app.models.system","app.models.preprocess","aerich.models"], "default_connection": "conn_system"}
         },
         "use_tz": False,
         "timezone": "Asia/Shanghai"
@@ -34,12 +34,14 @@ class Settings(BaseSettings):
     ADD_LOG_ORIGINS_INCLUDE: list[str] = Field(default_factory=lambda: ["*"])
     ADD_LOG_ORIGINS_DECLUDE: list[str] = Field(default_factory=lambda: ["/system-manage", "/redoc", "/doc", "/openapi.json"])
 
-    DEBUG: bool = False
+    DEBUG: bool = True
 
     PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent
     BASE_DIR: Path = PROJECT_ROOT.parent
     LOGS_ROOT: Path = BASE_DIR / "app/logs/"
     STATIC_ROOT: Path = BASE_DIR / "static/"
+    #EEG数据存储路径
+    EEG_STORAGE_PATH: Path = BASE_DIR / "eeg_data/"
     SECRET_KEY: str = "015a42020f023ac2c3eda3d45fe5ca3fef8921ce63589f6d4fcdef9814cd7fa7"
     JWT_ALGORITHM: str = "HS256"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 12  # 12 hours

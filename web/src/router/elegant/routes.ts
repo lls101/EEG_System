@@ -96,6 +96,100 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'analysis',
+    path: '/analysis',
+    component: 'layout.base',
+    meta: {
+      title: 'analysis',
+      i18nKey: 'route.analysis'
+    },
+    children: [
+      {
+        name: 'analysis_features',
+        path: '/analysis/features',
+        component: 'view.analysis_features',
+        meta: {
+          title: 'analysis_features',
+          i18nKey: 'route.analysis_features'
+        }
+      }
+    ]
+  },
+  {
+    name: 'apply-model',
+    path: '/apply-model',
+    component: 'layout.base',
+    meta: {
+      title: 'apply-model',
+      i18nKey: 'route.apply-model',
+      icon: 'mdi:robot-industrial'
+    },
+    children: [
+      {
+        name: 'apply-model_pd',
+        path: '/apply-model/pd',
+        component: 'view.apply-model_pd',
+        meta: {
+          title: 'apply-model_pd',
+          i18nKey: 'route.apply-model_pd',
+          icon: 'mdi:brain'
+        }
+      }
+    ]
+  },
+  {
+    name: 'demo-route',
+    path: '/demo-route',
+    component: 'layout.base',
+    meta: {
+      title: 'demo-route',
+      i18nKey: 'route.demo-route'
+    },
+    children: [
+      {
+        name: 'demo-route_child',
+        path: '/demo-route/child',
+        component: 'view.demo-route_child',
+        meta: {
+          title: 'demo-route_child',
+          i18nKey: 'route.demo-route_child'
+        }
+      }
+    ]
+  },
+  {
+    name: 'eegfile',
+    path: '/eegfile',
+    component: 'layout.base',
+    meta: {
+      title: 'eegfile',
+      i18nKey: 'route.eegfile',
+      icon: 'mdi:file-table-box-multiple'
+    },
+    children: [
+      {
+        name: 'eegfile_filemanage',
+        path: '/eegfile/filemanage',
+        component: 'view.eegfile_filemanage',
+        meta: {
+          title: 'eegfile_filemanage',
+          i18nKey: 'route.eegfile_filemanage',
+          icon: 'mdi:file-document-multiple-outline'
+        }
+      },
+      {
+        name: 'eegfile_upload',
+        path: '/eegfile/upload',
+        component: 'view.eegfile_upload',
+        meta: {
+          title: 'eegfile_upload',
+          i18nKey: 'route.eegfile_upload',
+          icon: 'mdi:compressed-file-outline'
+        }
+      }
+    ]
+  },
+  {
     name: 'function',
     path: '/function',
     component: 'layout.base',
@@ -441,6 +535,27 @@ export const generatedRoutes: GeneratedRoute[] = [
               title: 'plugin_charts_echarts',
               i18nKey: 'route.plugin_charts_echarts',
               icon: 'simple-icons:apacheecharts'
+            },
+            children: [
+              {
+                name: 'plugin_charts_echarts_vchart',
+                path: '/plugin/charts/echarts/vchart',
+                component: 'view.plugin_charts_echarts_vchart',
+                meta: {
+                  title: 'plugin_charts_echarts_vchart',
+                  i18nKey: 'route.plugin_charts_echarts_vchart'
+                }
+              }
+            ]
+          },
+          {
+            name: 'plugin_charts_echartscopy',
+            path: '/plugin/charts/echartscopy',
+            component: 'view.plugin_charts_echartscopy',
+            meta: {
+              title: 'plugin_charts_echartscopy',
+              i18nKey: 'route.plugin_charts_echartscopy',
+              icon: 'simple-icons:apacheecharts'
             }
           },
           {
@@ -451,6 +566,15 @@ export const generatedRoutes: GeneratedRoute[] = [
               title: 'plugin_charts_vchart',
               i18nKey: 'route.plugin_charts_vchart',
               localIcon: 'visactor'
+            }
+          },
+          {
+            name: 'plugin_charts_vchartcopy',
+            path: '/plugin/charts/vchartcopy',
+            component: 'view.plugin_charts_vchartcopy',
+            meta: {
+              title: 'plugin_charts_vchartcopy',
+              i18nKey: 'route.plugin_charts_vchartcopy'
             }
           }
         ]
@@ -636,6 +760,69 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'plugin_video',
           i18nKey: 'route.plugin_video',
           icon: 'mdi:video'
+        }
+      }
+    ]
+  },
+  {
+    name: 'preprocess',
+    path: '/preprocess',
+    component: 'layout.base',
+    meta: {
+      title: 'preprocess',
+      i18nKey: 'route.preprocess',
+      icon: 'mdi:mixer-settings'
+    },
+    children: [
+      {
+        name: 'preprocess_ica',
+        path: '/preprocess/ica',
+        component: 'view.preprocess_ica',
+        meta: {
+          title: 'preprocess_ica',
+          i18nKey: 'route.preprocess_ica',
+          icon: 'mdi:shuffle-variant'
+        }
+      },
+      {
+        name: 'preprocess_preprocess-basic',
+        path: '/preprocess/preprocess-basic',
+        component: 'view.preprocess_preprocess-basic',
+        meta: {
+          title: 'preprocess_preprocess-basic',
+          i18nKey: 'route.preprocess_preprocess-basic',
+          icon: 'mdi:tune'
+        }
+      },
+      {
+        name: 'preprocess_wavelet',
+        path: '/preprocess/wavelet',
+        component: 'view.preprocess_wavelet',
+        meta: {
+          title: 'preprocess_wavelet',
+          i18nKey: 'route.preprocess_wavelet',
+          icon: 'mdi:waveform'
+        }
+      }
+    ]
+  },
+  {
+    name: 'test',
+    path: '/test',
+    component: 'layout.base',
+    meta: {
+      title: 'test',
+      i18nKey: 'route.test'
+    },
+    children: [
+      {
+        name: 'test_plotlydemo',
+        path: '/test/plotlydemo',
+        component: 'view.test_plotlydemo',
+        meta: {
+          title: 'test_plotlydemo',
+          i18nKey: 'route.test_plotlydemo',
+          icon: 'mdi:chart-scatter-plot'
         }
       }
     ]

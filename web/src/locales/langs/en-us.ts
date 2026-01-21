@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'SoybeanAdmin',
+    title: 'EEG Data Analysis System',
     updateTitle: 'System Version Update Notification',
     updateContent: 'A new version of the system has been detected. Do you want to refresh the page immediately?',
     updateConfirm: 'Refresh immediately',
@@ -216,6 +216,7 @@ const local: App.I18n.Schema = {
     plugin_copy: 'Copy',
     plugin_charts: 'Charts',
     plugin_charts_echarts: 'ECharts',
+    plugin_charts_echartscopy: 'EChartsCopy',
     plugin_charts_antv: 'AntV',
     plugin_charts_vchart: 'VChart',
     plugin_editor: 'Editor',
@@ -235,7 +236,23 @@ const local: App.I18n.Schema = {
     plugin_gantt_vtable: 'VTableGantt',
     plugin_typeit: 'Typeit',
     plugin_tables: 'Tables',
-    plugin_tables_vtable: 'VTable'
+    plugin_tables_vtable: 'VTable',
+    test: 'test',
+    test_plotlydemo: 'test plotly',
+    eegfile: 'EEG File',
+    eegfile_upload: 'File Upload',
+    eegfile_filemanage: 'File Manage',
+
+    analysis: 'Analysis',
+    analysis_features: 'Feature Extraction',
+
+    preprocess: 'Preprocess',
+    "preprocess_preprocess-basic": 'Basic Preprocess',
+    "preprocess_ica": 'ICA Denoising',
+    "preprocess_wavelet": "Wavelet Denoising",
+
+    'apply-model': 'Model Application',
+    'apply-model_pd': 'PD Stimulation Detection'
   },
   page: {
     login: {
@@ -286,7 +303,7 @@ const local: App.I18n.Schema = {
     },
     about: {
       title: 'About',
-      introduction: `SoybeanAdmin is an elegant and powerful admin template, based on the latest front-end technology stack, including Vue3, Vite5, TypeScript, Pinia and UnoCSS. It has built-in rich theme configuration and components, strict code specifications, and an automated file routing system. In addition, it also uses the online mock data solution based on ApiFox. SoybeanAdmin provides you with a one-stop admin solution, no additional configuration, and out of the box. It is also a best practice for learning cutting-edge technologies quickly.`,
+      introduction: `EEG Data Analysis System is a professional electroencephalogram data processing and analysis platform, based on the latest front-end technology stack, including Vue3, Vite5, TypeScript, Pinia and UnoCSS. The system integrates complete EEG data preprocessing, ICA cleaning, wavelet denoising, and feature extraction functions, providing a one-stop solution for neuroscience research and EEG analysis. The system supports multiple feature domain calculations (time domain, frequency domain, time-frequency domain) and adopts standardized data processing workflows to ensure the accuracy and reproducibility of analysis results.`,
       projectInfo: {
         title: 'Project Info',
         version: 'Version',
@@ -650,6 +667,63 @@ const local: App.I18n.Schema = {
   },
   datatable: {
     itemCount: 'Total {total} items'
+  },
+  analysis: {
+    features: {
+      title: 'EEG Feature Extraction',
+      step1: 'Step 1: Select Data Source',
+      step2: 'Step 2: Feature Extraction Configuration',
+      step3: 'Step 3: Start Extraction',
+      dataSource: {
+        type: 'Data Source Type',
+        selectType: 'Select data source type',
+        selectData: 'Select specific data file',
+        selectDataPlaceholder: 'Select specific data file',
+        types: {
+          preprocessing: 'Preprocessed Data',
+          ica: 'ICA Cleaned Data',
+          wavelet: 'Wavelet Cleaned Data'
+        }
+      },
+      config: {
+        domain: 'Feature Domain',
+        selectDomain: 'Select feature domain',
+        domains: {
+          time: 'Time Domain Features',
+          frequency: 'Frequency Domain Features',
+          time_frequency: 'Time-Frequency Domain Features'
+        },
+        methods: 'Feature Extraction Methods',
+        selectMethods: 'Select extraction methods (multiple selection)',
+        epochLength: 'Epoch Length',
+        epochLengthUnit: 'seconds',
+        overlap: 'Overlap Ratio',
+        overlapUnit: '%'
+      },
+      actions: {
+        extract: 'Start Feature Extraction',
+        extracting: 'Extracting features...',
+        download: 'Download Result File',
+        reset: 'Reset Configuration'
+      },
+      results: {
+        title: 'Extraction Results',
+        filename: 'Result File',
+        size: 'File Size',
+        extractTime: 'Extraction Time',
+        statistics: 'View Statistics',
+        noResults: 'No extraction results'
+      },
+      messages: {
+        selectDataFirst: 'Please select data source first',
+        selectDomainFirst: 'Please select feature domain first',
+        selectMethodsFirst: 'Please select at least one extraction method',
+        extractSuccess: 'Feature extraction successful!',
+        extractFailed: 'Feature extraction failed',
+        downloadSuccess: 'Download started',
+        downloadFailed: 'Download failed'
+      }
+    }
   }
 };
 

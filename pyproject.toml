@@ -22,6 +22,8 @@ dependencies = [
     "redis>=4.6.0",
     "orjson>=3.10.12",
     "alibabacloud-dysmsapi20170525>=3.1.0",
+    "spkit>=0.0.9.6",
+    "numpy>=1.20.0",
 ]
 requires-python = ">=3.10"
 readme = "README.md"
@@ -93,5 +95,6 @@ verify_ssl = true
 
 [tool.aerich]
 tortoise_orm = "app.settings.TORTOISE_ORM"
+#tortoise_orm = "app.settings.config:settings.TORTOISE_ORM"
 location = "./migrations"
 src_folder = "./."

@@ -4,6 +4,23 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 
+
+from typing import Any, TypeVar, Generic
+
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
+from pydantic.generics import GenericModel
+
+
+T = TypeVar("T")
+
+
+class ResponseModel(GenericModel, Generic[T]):
+    code: str = "0000"
+    msg: str = "OK"
+    data: T | None = None
+
+
 class Custom(JSONResponse):
     def __init__(
             self,
@@ -16,6 +33,7 @@ class Custom(JSONResponse):
         content = {"code": str(code), "msg": msg, "data": data}
         content.update(kwargs)
         super().__init__(content=content, status_code=status_code)
+
 
 
 class Success(Custom):
@@ -51,3 +69,5 @@ class SuccessExtra(Custom):
 
 class CommonIds(BaseModel):
     ids: list[int] = Field(title="通用ids")
+
+

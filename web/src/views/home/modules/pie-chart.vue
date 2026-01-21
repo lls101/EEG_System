@@ -24,7 +24,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
   series: [
     {
       color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
-      name: $t('page.home.schedule'),
+      name: 'EEG数据分布',
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
@@ -58,10 +58,10 @@ async function mockData() {
 
   updateOptions(opts => {
     opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
+      { name: '时域特征', value: 35 },
+      { name: '频域特征', value: 28 },
+      { name: '时频域特征', value: 22 },
+      { name: '小波去噪', value: 15 }
     ];
 
     return opts;
@@ -75,10 +75,10 @@ function updateLocale() {
     opts.series[0].name = originOpts.series[0].name;
 
     opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
+      { name: '时域特征', value: 35 },
+      { name: '频域特征', value: 28 },
+      { name: '时频域特征', value: 22 },
+      { name: '小波去噪', value: 15 }
     ];
 
     return opts;
@@ -101,7 +101,7 @@ init();
 </script>
 
 <template>
-  <NCard :bordered="false" class="card-wrapper">
+  <NCard title="功能使用分布" :bordered="false" class="card-wrapper">
     <div ref="domRef" class="h-360px overflow-hidden"></div>
   </NCard>
 </template>

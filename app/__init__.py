@@ -77,3 +77,4 @@ async def lifespan(_app: FastAPI):
 app = create_app()
 
 app.mount("/static", StaticFiles(directory=APP_SETTINGS.STATIC_ROOT), name="static")
+app.mount("/eeg_data", StaticFiles(directory=APP_SETTINGS.EEG_STORAGE_PATH), name="eeg_data")

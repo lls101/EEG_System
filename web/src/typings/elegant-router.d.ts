@@ -38,6 +38,15 @@ declare module "@elegant-router/types" {
     "alova_request": "/alova/request";
     "alova_scenes": "/alova/scenes";
     "alova_user": "/alova/user";
+    "analysis": "/analysis";
+    "analysis_features": "/analysis/features";
+    "apply-model": "/apply-model";
+    "apply-model_pd": "/apply-model/pd";
+    "demo-route": "/demo-route";
+    "demo-route_child": "/demo-route/child";
+    "eegfile": "/eegfile";
+    "eegfile_filemanage": "/eegfile/filemanage";
+    "eegfile_upload": "/eegfile/upload";
     "function": "/function";
     "function_hide-child": "/function/hide-child";
     "function_hide-child_one": "/function/hide-child/one";
@@ -69,7 +78,9 @@ declare module "@elegant-router/types" {
     "plugin_charts": "/plugin/charts";
     "plugin_charts_antv": "/plugin/charts/antv";
     "plugin_charts_echarts": "/plugin/charts/echarts";
+    "plugin_charts_echartscopy": "/plugin/charts/echartscopy";
     "plugin_charts_vchart": "/plugin/charts/vchart";
+    "plugin_charts_vchartcopy": "/plugin/charts/vchartcopy";
     "plugin_copy": "/plugin/copy";
     "plugin_editor": "/plugin/editor";
     "plugin_editor_markdown": "/plugin/editor/markdown";
@@ -88,6 +99,12 @@ declare module "@elegant-router/types" {
     "plugin_tables_vtable": "/plugin/tables/vtable";
     "plugin_typeit": "/plugin/typeit";
     "plugin_video": "/plugin/video";
+    "preprocess": "/preprocess";
+    "preprocess_ica": "/preprocess/ica";
+    "preprocess_preprocess-basic": "/preprocess/preprocess-basic";
+    "preprocess_wavelet": "/preprocess/wavelet";
+    "test": "/test";
+    "test_plotlydemo": "/test/plotlydemo";
     "user-center": "/user-center";
   };
 
@@ -138,6 +155,10 @@ declare module "@elegant-router/types" {
     | "500"
     | "about"
     | "alova"
+    | "analysis"
+    | "apply-model"
+    | "demo-route"
+    | "eegfile"
     | "function"
     | "home"
     | "iframe-page"
@@ -145,6 +166,8 @@ declare module "@elegant-router/types" {
     | "manage"
     | "multi-menu"
     | "plugin"
+    | "preprocess"
+    | "test"
     | "user-center"
   >;
 
@@ -173,6 +196,11 @@ declare module "@elegant-router/types" {
     | "alova_request"
     | "alova_scenes"
     | "alova_user"
+    | "analysis_features"
+    | "apply-model_pd"
+    | "demo-route_child"
+    | "eegfile_filemanage"
+    | "eegfile_upload"
     | "function_hide-child_one"
     | "function_hide-child_three"
     | "function_hide-child_two"
@@ -193,7 +221,9 @@ declare module "@elegant-router/types" {
     | "plugin_barcode"
     | "plugin_charts_antv"
     | "plugin_charts_echarts"
+    | "plugin_charts_echartscopy"
     | "plugin_charts_vchart"
+    | "plugin_charts_vchartcopy"
     | "plugin_copy"
     | "plugin_editor_markdown"
     | "plugin_editor_quill"
@@ -209,6 +239,10 @@ declare module "@elegant-router/types" {
     | "plugin_tables_vtable"
     | "plugin_typeit"
     | "plugin_video"
+    | "preprocess_ica"
+    | "preprocess_preprocess-basic"
+    | "preprocess_wavelet"
+    | "test_plotlydemo"
     | "user-center"
   >;
 

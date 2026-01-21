@@ -21,7 +21,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     }
   },
   legend: {
-    data: [$t('page.home.downloadCount'), $t('page.home.registerCount')]
+    data: ['EEG文件处理量', '预处理任务量']
   },
   grid: {
     left: '3%',
@@ -40,7 +40,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
   series: [
     {
       color: '#8e9dff',
-      name: $t('page.home.downloadCount'),
+      name: 'EEG文件处理量',
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -70,7 +70,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#26deca',
-      name: $t('page.home.registerCount'),
+      name: '预处理任务量',
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -107,9 +107,9 @@ async function mockData() {
   });
 
   updateOptions(opts => {
-    opts.xAxis.data = ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
-    opts.series[0].data = [4623, 6145, 6268, 6411, 1890, 4251, 2978, 3880, 3606, 4311];
-    opts.series[1].data = [2208, 2016, 2916, 4512, 8281, 2008, 1963, 2367, 2956, 678];
+    opts.xAxis.data = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+    opts.series[0].data = [12, 28, 45, 67, 89, 72, 56, 34];
+    opts.series[1].data = [5, 11, 18, 29, 36, 31, 22, 14];
 
     return opts;
   });
@@ -143,7 +143,7 @@ init();
 </script>
 
 <template>
-  <NCard :bordered="false" class="card-wrapper">
+  <NCard title="今日数据处理趋势" :bordered="false" class="card-wrapper">
     <div ref="domRef" class="h-360px overflow-hidden"></div>
   </NCard>
 </template>

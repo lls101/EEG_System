@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
-import { $t } from '@/locales';
 
 defineOptions({
   name: 'CardData'
@@ -19,52 +18,76 @@ interface CardData {
   icon: string;
 }
 
-const cardData = computed<CardData[]>(() => [
-  {
-    key: 'visitCount',
-    title: $t('page.home.visitCount'),
-    value: 9725,
-    unit: '',
-    color: {
-      start: '#ec4786',
-      end: '#b955a4'
+interface OverviewCounts {
+  uploads: number;
+  preprocessing: number;
+  features: number;
+}
+
+interface OverviewRuntime {
+  uptime_seconds: number;
+}
+
+const props = defineProps<{
+  counts?: OverviewCounts | null;
+  runtime?: OverviewRuntime | null;
+}>();
+
+const cardData = computed<CardData[]>(() => {
+  const uploads = props.counts?.uploads ?? 0;
+  const preprocessing = props.counts?.preprocessing ?? 0;
+  const features = props.counts?.features ?? 0;
+  const uptimeHours = props.runtime?.uptime_seconds
+    ? Math.floor(props.runtime.uptime_seconds / 3600)
+    : 0;
+
+  return [
+    {
+      key: 'uploadCount',
+      title: '文件上传数量',
+      value: uploads,
+      unit: '个',
+      color: {
+        start: '#2563eb',
+        end: '#3b82f6'
+      },
+      icon: 'mdi:file-upload'
     },
-    icon: 'ant-design:bar-chart-outlined'
-  },
-  {
-    key: 'turnover',
-    title: $t('page.home.turnover'),
-    value: 1026,
-    unit: '$',
-    color: {
-      start: '#865ec0',
-      end: '#5144b4'
+    {
+      key: 'preprocessingCount',
+      title: '预处理数据量',
+      value: preprocessing,
+      unit: '个',
+      color: {
+        start: '#10b981',
+        end: '#34d399'
+      },
+      icon: 'mdi:filter-cog'
     },
-    icon: 'ant-design:money-collect-outlined'
-  },
-  {
-    key: 'downloadCount',
-    title: $t('page.home.downloadCount'),
-    value: 970925,
-    unit: '',
-    color: {
-      start: '#56cdf3',
-      end: '#719de3'
+    {
+      key: 'featureCount',
+      title: '特征提取数量',
+      value: features,
+      unit: '个',
+      color: {
+        start: '#f97316',
+        end: '#fb923c'
+      },
+      icon: 'mdi:chart-bell-curve'
     },
-    icon: 'carbon:document-download'
-  },
-  {
-    key: 'dealCount',
-    title: $t('page.home.dealCount'),
-    value: 9527,
-    unit: '',
-    color: {
-      start: '#fcbc25',
-      end: '#f68057'
-    },
-    icon: 'ant-design:trademark-circle-outlined'
-  }
-]);
+    {
+      key: 'uptimeHours',
+      title: '系统运行时长',
+      value: uptimeHours,
+      unit: '小时',
+      color: {
+        start: '#8b5cf6',
+        end: '#a78bfa'
+      },
+      icon: 'mdi:clock-outline'
+    }
+  ];
+});
 
 interface GradientBgProps {
   gradientColor: string;
@@ -94,7 +117,7 @@ function getGradientColor(color: CardData['color']) {
           <div class="flex justify-between pt-12px">
             <SvgIcon :icon="item.icon" class="text-32px" />
             <CountTo
-              :prefix="item.unit"
+              :suffix="item.unit"
               :start-value="1"
               :end-value="item.value"
               class="text-30px text-white dark:text-dark"

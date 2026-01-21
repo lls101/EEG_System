@@ -56,3 +56,18 @@ export function toggleHtmlClass(className: string) {
     remove
   };
 }
+
+
+/**
+ * Formats a date-time string or timestamp into a localized string.
+ * @param dateTime The date-time to format (string, number, or Date object).
+ * @returns A formatted date-time string.
+ */
+export function formatDateTime(dateTime: string | number | Date) {
+  if (!dateTime) return 'N/A';
+  try {
+    return new Date(dateTime).toLocaleString();
+  } catch (e) {
+    return 'Invalid Date';
+  }
+}

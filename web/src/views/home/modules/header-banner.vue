@@ -22,18 +22,18 @@ interface StatisticData {
 const statisticData = computed<StatisticData[]>(() => [
   {
     id: 0,
-    label: $t('page.home.projectCount'),
-    value: '25'
+    label: '已处理数据集',
+    value: '156'
   },
   {
     id: 1,
-    label: $t('page.home.todo'),
-    value: '4/16'
+    label: '特征提取任务',
+    value: '23/45'
   },
   {
     id: 2,
-    label: $t('page.home.message'),
-    value: '12'
+    label: '小波去噪任务',
+    value: '18'
   }
 ]);
 </script>
@@ -43,14 +43,14 @@ const statisticData = computed<StatisticData[]>(() => [
     <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
       <NGi span="24 s:24 m:18">
         <div class="flex-y-center">
-          <div class="size-72px shrink-0 overflow-hidden rd-1/2">
-            <img src="@/assets/imgs/soybean.jpg" class="size-full" />
+          <div class="size-72px shrink-0 overflow-hidden rd-1/2 bg-gradient-to-br from-blue-500 to-purple-600 flex-center">
+            <div class="text-white text-24px font-bold">EEG</div>
           </div>
           <div class="pl-12px">
             <h3 class="text-18px font-semibold">
-              {{ $t('page.home.greeting', { userName: authStore.userInfo.userName }) }}
+              欢迎使用 EEG 数据分析系统, {{ authStore.userInfo.userName }}!
             </h3>
-            <p class="text-#999 leading-30px">{{ $t('page.home.weatherDesc') }}</p>
+            <p class="text-#999 leading-30px">专业的脑电信号处理与分析平台，助力神经科学研究</p>
           </div>
         </div>
       </NGi>

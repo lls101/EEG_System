@@ -1,66 +1,194 @@
+# =====================
+# Python Backend
+# =====================
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
-.idea/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
 venv/
 .venv/
-.vscode/
-.ruff_cache/
+ENV/
+env/
+.pdm-python
+.pdm.toml
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
 .pytest_cache/
 
-# Tortoise ORM generated files
+# Type checking
 .mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.pyre/
+
+# Linting
+.ruff_cache/
+.ruff/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# =====================
+# Tortoise ORM / Database
+# =====================
 *.sqlite3
+*.sqlite3-journal
 tortoise_queries.json
 tortoise_last.txt
-
-# Aerich migrations
 aerich.ini
 migrations/
 
-*.log
-*.sqlite3*
+# =====================
+# EEG Data & Models (Large Files)
+# =====================
+eeg_data/
+*.edf
+*.bdf
+*.fif
+*.set
+*.fdt
+*.ndf
+*.eeg
+*.vhdr
+*.vmrk
 
+# Deep Learning Models
+app/dl_models/**/*.pt
+app/dl_models/**/*.pth
+app/dl_models/**/*.h5
+app/dl_models/**/*.pkl
+app/dl_models/**/*.onnx
+*.pt
+*.pth
+*.h5
+*.pkl
+*.onnx
+!requirements*.txt
+
+# =====================
+# Environment Variables
+# =====================
+.env
+.env.local
+.env.*.local
+*.local
+
+# =====================
+# Logs
+# =====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =====================
+# IDE / Editor
+# =====================
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-workspace
+*.sublime-project
+.VSCodeCounter/
+
+# =====================
+# OS Generated Files
+# =====================
 .DS_Store
 ._.DS_Store
-.pdm-python
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
 
+# =====================
+# Vue.js Frontend (web/)
+# =====================
+web/node_modules/
+web/.pnpm-store/
+web/dist/
+web/dist-ssr/
+web/coverage/
+web/logs/
+web/*.log
+web/*.local
 
-# Logs
-/web/logs
-/web/*.log
-/web/npm-debug.log*
-/web/yarn-debug.log*
-/web/yarn-error.log*
-/web/pnpm-debug.log*
-/web/lerna-debug.log*
+# Cypress
+web/cypress/videos/
+web/cypress/screenshots/
 
-/web/node_modules
-/web/.DS_Store
-/web/dist
-/web/dist-ssr
-/web/coverage
-/web/*.local
+# Package manager locks (optional - remove if you want to track these)
+# web/pnpm-lock.yaml
+# web/package-lock.json
+# web/yarn.lock
 
-/web/cypress/videos/
-/web/cypress/screenshots/
+# Monorepo packages node_modules
+web/packages/*/node_modules/
 
-# Editor directories and files
-/web/.vscode/*
-/web/!.vscode/extensions.json
-/web/!.vscode/settings.json
-/web/!.vscode/launch.json
-/web/.idea
-/web/*.suo
-/web/*.ntvs*
-/web/*.njsproj
-/web/*.sln
-/web/*.sw?
+# =====================
+# Temporary Files
+# =====================
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
 
-/web/.VSCodeCounter
-/web/packages/scripts/node_modules/*
-/web/packages/axios/node_modules/*
-/web/packages/color/node_modules/*
-/web/packages/hooks/node_modules/*
-/web/packages/materials/node_modules/*
-/web/packages/ofetch/node_modules/*
-/web/packages/utils/node_modules/*
-/web/.pnpm-store/*
+# =====================
+# Test / Debug
+# =====================
+test_*.py
+!app/tests/
+check_*.py
