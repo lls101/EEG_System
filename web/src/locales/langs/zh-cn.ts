@@ -253,6 +253,14 @@ const local: App.I18n.Schema = {
 
     'apply-model': '场景应用',
     'apply-model_pd': 'PD刺激检测',
+    'deep-learning': '深度学习',
+    'deep-learning_dataset': '数据集管理',
+    'deep-learning_train-config': '训练配置',
+    'deep-learning_train-tasks': '训练任务',
+    'deep-learning_train-monitor': '训练监控',
+    'deep-learning_model-manage': '模型管理',
+    'deep-learning_evaluation': '评估报告',
+    'deep-learning_inference': '在线推理'
   },
   page: {
     login: {
@@ -313,6 +321,15 @@ const local: App.I18n.Schema = {
       },
       prdDep: '生产依赖',
       devDep: '开发依赖'
+    },
+    deepLearning: {
+      dataset: { title: '数据集管理' },
+      trainConfig: { title: '训练配置' },
+      trainTasks: { title: '训练任务' },
+      trainMonitor: { title: '训练监控' },
+      modelManage: { title: '模型管理' },
+      evaluation: { title: '评估报告' },
+      inference: { title: '在线推理' }
     },
     home: {
       branchDesc:
@@ -722,6 +739,29 @@ const local: App.I18n.Schema = {
         extractFailed: '特征提取失败',
         downloadSuccess: '下载开始',
         downloadFailed: '下载失败'
+      }
+    },
+    deepLearning: {
+      dataset: {
+        title: '数据集管理'
+      },
+      trainConfig: {
+        title: '训练配置'
+      },
+      trainTasks: {
+        title: '训练任务'
+      },
+      trainMonitor: {
+        title: '训练监控'
+      },
+      modelManage: {
+        title: '模型管理'
+      },
+      evaluation: {
+        title: '评估报告'
+      },
+      inference: {
+        title: '在线推理'
       }
     }
   }

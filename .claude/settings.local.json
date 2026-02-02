@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sqlite3:*)",
+      "Bash(npm run dev:*)",
+      "Bash(python run.py:*)",
+      "Bash(timeout 3 curl:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(git checkout:*)",
+      "Bash(curl:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill //F //PID 38140)",
+      "Bash(taskkill:*)",
+      "Bash(taskkill //F //PID 35556)",
+      "Bash(conda activate:*)",
+      "Bash(where:*)"
+    ]
+  }
+}

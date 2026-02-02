@@ -252,7 +252,15 @@ const local: App.I18n.Schema = {
     "preprocess_wavelet": "Wavelet Denoising",
 
     'apply-model': 'Model Application',
-    'apply-model_pd': 'PD Stimulation Detection'
+    'apply-model_pd': 'PD Stimulation Detection',
+    'deep-learning': 'Deep Learning',
+    'deep-learning_dataset': 'Dataset Management',
+    'deep-learning_train-config': 'Training Config',
+    'deep-learning_train-tasks': 'Training Tasks',
+    'deep-learning_train-monitor': 'Training Monitor',
+    'deep-learning_model-manage': 'Model Management',
+    'deep-learning_evaluation': 'Evaluation',
+    'deep-learning_inference': 'Online Inference'
   },
   page: {
     login: {
@@ -313,6 +321,15 @@ const local: App.I18n.Schema = {
       },
       prdDep: 'Production Dependency',
       devDep: 'Development Dependency'
+    },
+    deepLearning: {
+      dataset: { title: 'Dataset Management' },
+      trainConfig: { title: 'Training Config' },
+      trainTasks: { title: 'Training Tasks' },
+      trainMonitor: { title: 'Training Monitor' },
+      modelManage: { title: 'Model Management' },
+      evaluation: { title: 'Evaluation' },
+      inference: { title: 'Online Inference' }
     },
     home: {
       branchDesc:
@@ -722,6 +739,29 @@ const local: App.I18n.Schema = {
         extractFailed: 'Feature extraction failed',
         downloadSuccess: 'Download started',
         downloadFailed: 'Download failed'
+      }
+    },
+    deepLearning: {
+      dataset: {
+        title: 'Dataset Management'
+      },
+      trainConfig: {
+        title: 'Training Configuration'
+      },
+      trainTasks: {
+        title: 'Training Tasks'
+      },
+      trainMonitor: {
+        title: 'Training Monitor'
+      },
+      modelManage: {
+        title: 'Model Management'
+      },
+      evaluation: {
+        title: 'Evaluation Report'
+      },
+      inference: {
+        title: 'Online Inference'
       }
     }
   }

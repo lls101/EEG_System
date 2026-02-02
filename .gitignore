@@ -152,6 +152,7 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 *.lnk
+nul
 
 # =====================
 # Vue.js Frontend (web/)

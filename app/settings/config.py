@@ -14,7 +14,7 @@ def tortoise_orm_factory() -> dict[str, Any]:
             }
         },
         "apps": {
-            "app_system": {"models": ["app.models.system","app.models.preprocess","aerich.models"], "default_connection": "conn_system"}
+            "app_system": {"models": ["app.models.system","app.models.preprocess","app.models.dl","aerich.models"], "default_connection": "conn_system"}
         },
         "use_tz": False,
         "timezone": "Asia/Shanghai"

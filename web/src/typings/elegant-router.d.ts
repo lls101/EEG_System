@@ -42,6 +42,14 @@ declare module "@elegant-router/types" {
     "analysis_features": "/analysis/features";
     "apply-model": "/apply-model";
     "apply-model_pd": "/apply-model/pd";
+    "deep-learning": "/deep-learning";
+    "deep-learning_dataset": "/deep-learning/dataset";
+    "deep-learning_evaluation": "/deep-learning/evaluation";
+    "deep-learning_inference": "/deep-learning/inference";
+    "deep-learning_model-manage": "/deep-learning/model-manage";
+    "deep-learning_train-config": "/deep-learning/train-config";
+    "deep-learning_train-monitor": "/deep-learning/train-monitor";
+    "deep-learning_train-tasks": "/deep-learning/train-tasks";
     "demo-route": "/demo-route";
     "demo-route_child": "/demo-route/child";
     "eegfile": "/eegfile";
@@ -157,6 +165,7 @@ declare module "@elegant-router/types" {
     | "alova"
     | "analysis"
     | "apply-model"
+    | "deep-learning"
     | "demo-route"
     | "eegfile"
     | "function"
@@ -198,6 +207,13 @@ declare module "@elegant-router/types" {
     | "alova_user"
     | "analysis_features"
     | "apply-model_pd"
+    | "deep-learning_dataset"
+    | "deep-learning_evaluation"
+    | "deep-learning_inference"
+    | "deep-learning_model-manage"
+    | "deep-learning_train-config"
+    | "deep-learning_train-monitor"
+    | "deep-learning_train-tasks"
     | "demo-route_child"
     | "eegfile_filemanage"
     | "eegfile_upload"

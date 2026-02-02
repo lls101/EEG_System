@@ -986,6 +986,137 @@ async def init_menus():
     ]
     await Menu.bulk_create(children_menu)
 
+    # Initialize Deep Learning menus if not exists
+    if not await Menu.filter(route_name="deep-learning").exists():
+        await init_dl_menus()
+
+
+async def init_dl_menus():
+    """Initialize Deep Learning module menus"""
+    # Check if already exists
+    if await Menu.filter(route_name="deep-learning").exists():
+        return
+
+    # Create main Deep Learning menu
+    root_menu = await Menu.create(
+        status=StatusType.enable,
+        parent_id=0,
+        menu_type=MenuType.catalog,
+        menu_name="深度学习",
+        route_name="deep-learning",
+        route_path="/deep-learning",
+        component="layout.base",
+        order=3,
+        i18n_key="route.deep-learning",
+        icon="mdi:brain",
+        icon_type=IconType.iconify,
+    )
+
+    # Create sub-menus
+    children_menu = [
+        Menu(
+            status=StatusType.enable,
+            parent_id=root_menu.id,
+            menu_type=MenuType.page,
+            menu_name="数据集管理",
+            route_name="deep-learning_dataset",
+            route_path="/deep-learning/dataset",
+            component="view.deep-learning_dataset",
+            order=1,
+            i18n_key="route.deep-learning_dataset",
+            icon="mdi:database",
+            icon_type=IconType.iconify,
+        ),
+        Menu(
+            status=StatusType.enable,
+            parent_id=root_menu.id,
+            menu_type=MenuType.page,
+            menu_name="训练配置",
+            route_name="deep-learning_train-config",
+            route_path="/deep-learning/train-config",
+            component="view.deep-learning_train-config",
+            order=2,
+            i18n_key="route.deep-learning_train-config",
+            icon="mdi:cog",
+            icon_type=IconType.iconify,
+        ),
+        Menu(
+            status=StatusType.enable,
+            parent_id=root_menu.id,
+            menu_type=MenuType.page,
+            menu_name="训练任务",
+            route_name="deep-learning_train-tasks",
+            route_path="/deep-learning/train-tasks",
+            component="view.deep-learning_train-tasks",
+            order=3,
+            i18n_key="route.deep-learning_train-tasks",
+            icon="mdi:clipboard-text",
+            icon_type=IconType.iconify,
+        ),
+        Menu(
+            status=StatusType.enable,
+            parent_id=root_menu.id,
+            menu_type=MenuType.page,
+            menu_name="训练监控",
+            route_name="deep-learning_train-monitor",
+            route_path="/deep-learning/train-monitor",
+            component="view.deep-learning_train-monitor",
+            order=4,
+            i18n_key="route.deep-learning_train-monitor",
+            icon="mdi:chart-line",
+            icon_type=IconType.iconify,
+        ),
+        Menu(
+            status=StatusType.enable,
+            parent_id=root_menu.id,
+            menu_type=MenuType.page,
+            menu_name="模型管理",
+            route_name="deep-learning_model-manage",
+            route_path="/deep-learning/model-manage",
+            component="view.deep-learning_model-manage",
+            order=5,
+            i18n_key="route.deep-learning_model-manage",
+            icon="mdi:cube-outline",
+            icon_type=IconType.iconify,
+        ),
+        Menu(
+            status=StatusType.enable,
+            parent_id=root_menu.id,
+            menu_type=MenuType.page,
+            menu_name="评估报告",
+            route_name="deep-learning_evaluation",
+            route_path="/deep-learning/evaluation",
+            component="view.deep-learning_evaluation",
+            order=6,
+            i18n_key="route.deep-learning_evaluation",
+            icon="mdi:file-chart",
+            icon_type=IconType.iconify,
+        ),
+        Menu(
+            status=StatusType.enable,
+            parent_id=root_menu.id,
+            menu_type=MenuType.page,
+            menu_name="在线推理",
+            route_name="deep-learning_inference",
+            route_path="/deep-learning/inference",
+            component="view.deep-learning_inference",
+            order=7,
+            i18n_key="route.deep-learning_inference",
+            icon="mdi:lightning-bolt",
+            icon_type=IconType.iconify,
+        ),
+    ]
+    await Menu.bulk_create(children_menu)
+
+    # Add to Super Admin role
+    super_role = await Role.get_or_none(role_code="R_SUPER")
+    if super_role:
+        await super_role.by_role_menus.add(root_menu)
+        dl_children = await Menu.filter(route_name__startswith="deep-learning_")
+        for child in dl_children:
+            await super_role.by_role_menus.add(child)
+        await super_role.save()
+
 
 async def insert_role(children_role: list[Role], role_apis: list[tuple[str, str]] = None, role_menus: list[str] = None, role_buttons: list[str] = None):
     if role_apis is None:

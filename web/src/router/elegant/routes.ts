@@ -138,6 +138,89 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'deep-learning',
+    path: '/deep-learning',
+    component: 'layout.base',
+    meta: {
+      title: 'deep-learning',
+      i18nKey: 'route.deep-learning',
+      icon: 'mdi:brain',
+      order: 5
+    },
+    children: [
+      {
+        name: 'deep-learning_dataset',
+        path: '/deep-learning/dataset',
+        component: 'view.deep-learning_dataset',
+        meta: {
+          title: 'deep-learning_dataset',
+          i18nKey: 'route.deep-learning_dataset',
+          icon: 'mdi:database'
+        }
+      },
+      {
+        name: 'deep-learning_evaluation',
+        path: '/deep-learning/evaluation',
+        component: 'view.deep-learning_evaluation',
+        meta: {
+          title: 'deep-learning_evaluation',
+          i18nKey: 'route.deep-learning_evaluation',
+          icon: 'mdi:clipboard-check'
+        }
+      },
+      {
+        name: 'deep-learning_inference',
+        path: '/deep-learning/inference',
+        component: 'view.deep-learning_inference',
+        meta: {
+          title: 'deep-learning_inference',
+          i18nKey: 'route.deep-learning_inference',
+          icon: 'mdi:robot-industrial'
+        }
+      },
+      {
+        name: 'deep-learning_model-manage',
+        path: '/deep-learning/model-manage',
+        component: 'view.deep-learning_model-manage',
+        meta: {
+          title: 'deep-learning_model-manage',
+          i18nKey: 'route.deep-learning_model-manage',
+          icon: 'mdi:cube'
+        }
+      },
+      {
+        name: 'deep-learning_train-config',
+        path: '/deep-learning/train-config',
+        component: 'view.deep-learning_train-config',
+        meta: {
+          title: 'deep-learning_train-config',
+          i18nKey: 'route.deep-learning_train-config',
+          icon: 'mdi:sliders'
+        }
+      },
+      {
+        name: 'deep-learning_train-monitor',
+        path: '/deep-learning/train-monitor',
+        component: 'view.deep-learning_train-monitor',
+        meta: {
+          title: 'deep-learning_train-monitor',
+          i18nKey: 'route.deep-learning_train-monitor',
+          icon: 'mdi:chart-line'
+        }
+      },
+      {
+        name: 'deep-learning_train-tasks',
+        path: '/deep-learning/train-tasks',
+        component: 'view.deep-learning_train-tasks',
+        meta: {
+          title: 'deep-learning_train-tasks',
+          i18nKey: 'route.deep-learning_train-tasks',
+          icon: 'mdi:clipboard-text'
+        }
+      }
+    ]
+  },
+  {
     name: 'demo-route',
     path: '/demo-route',
     component: 'layout.base',
